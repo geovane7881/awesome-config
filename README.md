@@ -25,7 +25,7 @@ I'd like to thank [Worron](https://github.com/worron) and everyone else who cont
 
 ## Screenshot
 <!--suppress HtmlDeprecatedAttribute --><p align="center">Dark - My forked version</p>
-![Forked Version - Custom Colorless Theme](https://imgur.com/a/jshYrrP)
+![Forked Version - Custom Colorless Theme](https://i.imgur.com/6ZwUypF.png)
 
 
 <br />
