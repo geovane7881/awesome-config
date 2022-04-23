@@ -24,9 +24,9 @@ I'd like to thank [Worron](https://github.com/worron) and everyone else who cont
 
 
 ## Screenshot
-<!--suppress HtmlDeprecatedAttribute --><p align="center">Dark - My forked version</p>
+<!--suppress HtmlDeprecatedAttribute --><p align="center">Custom - My forked version</p>
 ![Forked Version - Custom Colorless Theme](https://i.imgur.com/6ZwUypF.png)
-
+[@Credit](https://www.wallpaperflare.com/keanu-reeves-parabellum-john-wick-2019-john-wick-3-chapter-3-wallpaper-goqus)
 
 <br />
 <br />
