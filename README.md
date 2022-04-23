@@ -18,7 +18,7 @@ I'd like to thank [Worron](https://github.com/worron) and everyone else who cont
 - picom for composition
 - wpgtk and pywall for colors
 - luarocks and lua-json (to read colors from json)
-- playerctl and mpdris2 for the audio to work properly
+- playerctl and mpdris2 for the audio widget to work properly
 - rofi
 - and some default apps that I used.
 
