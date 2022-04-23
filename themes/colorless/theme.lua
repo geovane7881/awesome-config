@@ -2,6 +2,7 @@
 --                                                Colorless theme                                                    --
 -----------------------------------------------------------------------------------------------------------------------
 local awful = require("awful")
+local json = require "json"
 
 local theme = {}
 --local wa = mouse.screen.workarea
@@ -34,22 +35,95 @@ theme.color = {
 	desktop_icon = "#606060",
 }
 
+--pega cores do json
+file = io.open(os.getenv("HOME") .. "/.config/wpg/templates/awesome.json", "r")
+cores = file:read("*all")
+file:close()
+
+local theme_json = {}
+theme_json["color"] = {}
+theme_json.color = json.decode(cores)
+-- -- print(json.encode(theme_json.color));
+-- print(theme_json.color.gray);
+
+-- local theme = {}
+-- theme["color"] = {}
+
+theme.color = {
+	-- main colors
+
+	--main      = "#02606D",
+	--color 3 do pywall
+	--main 	  = "#EB6BA3",
+	main = theme_json.color.main,
+
+	--gray      = "#575757",
+	-- foreground do pywall
+	--gray      = "#eec1d2",
+	gray = theme_json.color.gray,
+
+	bg        = "#161616",
+	bg_second = "#181818",
+
+	--wibox     = "#202020",
+	--bg do pywall
+	--wibox       = "#151037",
+	wibox = theme_json.color.wibox,
+
+	--icon      = "#a0a0a0",
+	-- foreground do pywall
+	icon      = "#eec1d2",
+	icon = theme_json.color.icon,
+
+	text      = "#aaaaaa",
+	urgent    = "#B25500",
+	highlight = "#e0e0e0",
+	border    = "#404040",
+
+	-- secondary colors
+	-- configurando temporariamente sem cores de sombra
+	--shadow1   = "#141414",
+	shadow1   = theme_json.color.main,
+	--shadow2   = "#313131",
+	shadow2   = theme_json.color.main,
+	--shadow3   = "#1c1c1c",
+	shadow3   = theme_json.color.main,
+	shadow4   = "#767676",
+
+	button    = "#575757",
+	pressed   = "#404040",
+
+	desktop_gray = "#404040",
+	desktop_icon = "#606060",
+}
+
+
 -- Common
 -----------------------------------------------------------------------------------------------------------------------
 theme.path = awful.util.get_configuration_dir() .. "themes/colorless"
 theme.base = awful.util.get_configuration_dir() .. "themes/colorless"
 theme.homedir = os.getenv("HOME")
+theme.path_colored = awful.util.get_configuration_dir() .. "themes/colored"
 
 -- Main config
 ------------------------------------------------------------
 
-theme.panel_height        = 36 -- panel height
-theme.border_width        = 4  -- window border width
+-- theme.panel_height        = 36 -- panel height
+-- theme.border_width        = 4  -- window border width
+-- theme.useless_gap         = 4  -- useless gap
+--
+--theme.panel_height        = 36 -- panel height
+theme.panel_height        = 28 -- panel height
+--theme.border_width        = 4  -- window border width
+theme.border_width        = 2  -- window border width
 theme.useless_gap         = 4  -- useless gap
+
 
 theme.cellnum = { x = 96, y = 58 } -- grid layout property
 
-theme.wallpaper = theme.path .. "/wallpaper/primary.png" -- wallpaper file
+--theme.wallpaper = theme.path .. "/wallpaper/primary.png" -- wallpaper file
+--wallpaper via pywall
+theme.wallpaper = theme_json.color.wallpaper;
 
 -- Fonts
 ------------------------------------------------------------
@@ -113,6 +187,35 @@ theme.icon = {
 	unknown  = theme.path .. "/common/unknown.svg",
 }
 
+-- Widget icons do colored
+--------------------------------------------------------------------------------
+theme.wicon = {
+	battery    = theme.path_colored .. "/widget/battery.svg",
+	wireless   = theme.path_colored .. "/widget/wireless.svg",
+	monitor    = theme.path_colored .. "/widget/monitor.svg",
+	audio      = theme.path_colored .. "/widget/audio.svg",
+	headphones = theme.path_colored .. "/widget/headphones.svg",
+	brightness = theme.path_colored .. "/widget/brightness.svg",
+	keyboard   = theme.path_colored .. "/widget/keyboard.svg",
+	mail       = theme.path_colored .. "/widget/mail.svg",
+	package    = theme.path_colored .. "/widget/package.svg",
+	search     = theme.path_colored .. "/widget/search.svg",
+	mute       = theme.path_colored .. "/widget/mute.svg",
+	up         = theme.path_colored .. "/widget/up.svg",
+	down       = theme.path_colored .. "/widget/down.svg",
+	onscreen   = theme.path_colored .. "/widget/onscreen.svg",
+	resize     = {
+		full       = theme.path_colored .. "/widget/resize/full.svg",
+		horizontal = theme.path_colored .. "/widget/resize/horizontal.svg",
+		vertical   = theme.path_colored .. "/widget/resize/vertical.svg",
+	},
+	updates    = {
+		normal = theme.path_colored .. "/widget/updates/normal.svg",
+		silent = theme.path_colored .. "/widget/updates/silent.svg",
+		weekly = theme.path_colored .. "/widget/updates/weekly.svg",
+		daily = theme.path_colored .. "/widget/updates/daily.svg",
+	},
+}
 
 -- Main theme settings
 -- Make it updatabele since it may depends on common
@@ -381,10 +484,17 @@ function theme:init()
 	-- Circle shaped monitor
 	--------------------------------------------------------------
 	self.gauge.monitor.circle = {
+		-- width        = 32,        -- widget width
+		-- line_width   = 4,         -- width of circle
+		-- iradius      = 5,         -- radius for center point
+		-- radius       = 11,        -- circle radius
+		-- step        = 0.05,       -- circle painting step
+		-- color        = self.color -- colors (main used)
+
 		width        = 32,        -- widget width
-		line_width   = 4,         -- width of circle
-		iradius      = 5,         -- radius for center point
-		radius       = 11,        -- circle radius
+		line_width   = 3,         -- width of circle
+		iradius      = 4,         -- radius for center point
+		radius       = 8.5,        -- circle radius
 		step        = 0.05,       -- circle painting step
 		color        = self.color -- colors (main used)
 	}
@@ -392,11 +502,13 @@ function theme:init()
 	-- Tag (base element of taglist)
 	------------------------------------------------------------
 	self.gauge.tag.orange = {
-		width        = 38,                                   -- widget width
+		-- width        = 38,                                   -- widget width
+		width        = 30,                                   -- widget width
 		line_width   = self.gauge.monitor.circle.line_width, -- width of arcs
 		iradius      = self.gauge.monitor.circle.iradius,    -- radius for center point
 		radius       = self.gauge.monitor.circle.radius,     -- arcs radius
-		cgap         = 0.314,                                -- gap between arcs in radians
+		-- cgap         = 0.314,                                -- gap between arcs in radians
+		cgap         = 0.600,                                -- gap between arcs in radians
 		min_sections = 1,                                    -- minimal amount of arcs
 		show_min     = false,                                -- indicate minimized apps by color
 		text         = false,                                -- replace middle circle by text
@@ -480,7 +592,9 @@ function theme:init()
 		text_shift = 20,
 		color      = self.color,
 		font       = self.cairo_fonts.tag,
-		point    = { width = 70, height = 3, gap = 27, dx = 5 },
+		--point    = { width = 70, height = 3, gap = 27, dx = 5 },
+		--traço ajustado
+		point    = { width = 70, height = 2, gap = 25, dx = 5 },
 	}
 
 	self.gauge.task.ruby = {
@@ -521,12 +635,22 @@ function theme:init()
 	-- individual margins for panel widgets
 	------------------------------------------------------------
 	self.widget.wrapper = {
-		mainmenu    = { 12, 10, 6, 6 },
-		layoutbox   = { 10, 10, 6, 6 },
-		textclock   = { 12, 12, 0, 0 },
-		taglist     = { 4, 4, 0, 0 },
-		tray        = { 10, 12, 7, 7 },
-		-- tasklist    = { 0, 70, 0, 0 }, -- centering tasklist widget
+		-- mainmenu    = { 12, 10, 6, 6 },
+		-- layoutbox   = { 10, 10, 6, 6 },
+		-- textclock   = { 12, 12, 0, 0 },
+		-- taglist     = { 4, 4, 0, 0 },
+		-- tray        = { 10, 12, 7, 7 },
+		-- -- tasklist    = { 0, 70, 0, 0 }, -- centering tasklist widget
+  
+		mainmenu    = {4, 4, 4, 4},
+		taglist     = {4, 4, 4, 4},
+		layoutbox   = {4, 4, 4, 4},
+		textclock   = {4, 4, 4, 4},
+		network        = {4, 4, 4, 4},
+		cpuram        = {4, 4, 4, 4},
+		volume        = {4, 4, 4, 4},
+		battery        = {4, 4, 4, 4},
+		tray        = {4, 4, 4, 4},
 	}
 
 	-- Textclock
@@ -574,6 +698,11 @@ function theme:init()
 		end,
 	}
 
+	-- Volume control icon
+	------------------------------------------------------------
+	self.gauge.audio.red.icon = { volume = self.wicon.audio, mute = self.wicon.mute }
+	self.gauge.audio.blue.icon = self.wicon.headphones
+
 	-- Pulseaudio volume control
 	------------------------------------------------------------
 	self.widget.pulse = {
@@ -581,6 +710,8 @@ function theme:init()
 		widget = nil, -- audio gauge (usually setted by rc file)
 		audio  = {}   -- style for gauge
 	}
+	--coloca icone do tema colored
+	self.widget.pulse.notify = { icon = self.wicon.audio }
 
 	-- Keyboard layout indicator
 	------------------------------------------------------------
@@ -1488,7 +1619,9 @@ function theme:init()
 	self.fg_minimize   = self.color.highlight
 
 	self.border_normal = self.color.wibox
-	self.border_focus  = self.color.wibox
+	-- self.border_focus  = self.color.wibox
+	--cor de destaque
+	self.border_focus  = self.color.main
 	self.border_marked = self.color.main
 
 	-- font

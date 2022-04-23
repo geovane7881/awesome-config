@@ -27,28 +27,21 @@ theme.fonts = {
 	notify   = "Play bold 14",   -- redflat notify popup font
 	clock    = "Play bold 12",   -- textclock widget font
 	qlaunch  = "Play bold 14",   -- quick launch key label font
-	logout   = "Play bold 14",   -- logout screen labels
 	keychain = "Play bold 16",   -- key sequence tip font
 	title    = "Roboto bold 13", -- widget titles font
 	tiny     = "Roboto bold 10", -- smallest font for widgets
 	titlebar = "Roboto bold 13", -- client titlebar font
-	logout   = {
-		label   = "Play bold 14", -- logout option labels
-		counter = "Play bold 24", -- logout counter
-	},
 	hotkeys  = {
-		main  = "Roboto 14",             -- hotkeys helper main font
-		key   = "Iosevka Term Light 14", -- hotkeys helper key font (use monospace for align)
-		title = "Roboto bold 16",        -- hotkeys helper group title font
+		--main  = "Roboto 14",             -- hotkeys helper main font
+		--key   = "Iosevka Term Light 14", -- hotkeys helper key font (use monospace for align)
+		--title = "Roboto bold 16",        -- hotkeys helper group title font
+		main  = "Roboto 10",             -- hotkeys helper main font
+		key   = "Iosevka Term Light 10", -- hotkeys helper key font (use monospace for align)
+		title = "Roboto bold 10",        -- hotkeys helper group title font
 	},
 	player   = {
 		main = "Play bold 13", -- player widget main font
 		time = "Play bold 15", -- player widget current time font
-	},
-	-- very custom calendar fonts
-	calendar = {
-		clock = "Play bold 28", date = "Play 16", week_numbers = "Play 12", weekdays_header = "Play 12",
-		days  = "Play 14", default = "Play 14", focus = "Play 12 Bold", controls = "Play bold 16"
 	},
 }
 
@@ -91,14 +84,7 @@ theme.wicon = {
 		normal = theme.path .. "/widget/updates/normal.svg",
 		silent = theme.path .. "/widget/updates/silent.svg",
 		weekly = theme.path .. "/widget/updates/weekly.svg",
-		daily = theme.path .. "/widget/updates/daily.svg", },
-	logout = {
-		logout = theme.path .. "/widget/logout/logout.svg",
-		lock = theme.path .. "/widget/logout/lock.svg",
-		poweroff = theme.path .. "/widget/logout/poweroff.svg",
-		suspend = theme.path .. "/widget/logout/suspend.svg",
-		reboot = theme.path .. "/widget/logout/reboot.svg",
-		switch = theme.path .. "/widget/logout/switch.svg",
+		daily = theme.path .. "/widget/updates/daily.svg",
 	},
 }
 
@@ -131,15 +117,6 @@ function theme:update()
 	self.service.dfparser.icons.theme         = self.homedir .. "/.icons/ACYLS"
 	self.service.dfparser.icons.custom_only   = true
 	self.service.dfparser.icons.scalable_only = true
-
-	-- Log out screen
-	--------------------------------------------------------------------------------
-	self.service.logout.icons.logout = self.wicon.logout.logout
-	self.service.logout.icons.lock = self.wicon.logout.lock
-	self.service.logout.icons.poweroff = self.wicon.logout.poweroff
-	self.service.logout.icons.suspend = self.wicon.logout.suspend
-	self.service.logout.icons.reboot = self.wicon.logout.reboot
-	self.service.logout.icons.switch = self.wicon.logout.switch
 
 	-- Menu config
 	--------------------------------------------------------------------------------
@@ -192,17 +169,9 @@ function theme:update()
 	self.widget.tasklist.winmenu.hide_action = { min = false, move = false }
 	self.widget.tasklist.tasktip.margin = { 8, 8, 4, 4 }
 	self.widget.tasklist.winmenu.tagmenu.width = 150
-	self.widget.tasklist.winmenu.enable_tagline = true
-	self.widget.tasklist.winmenu.tagline = { height = 30 }
-	self.widget.tasklist.winmenu.tag_iconsize = { width = 16, height = 16 }
 
 	-- Floating widgets
 	--------------------------------------------------------------------------------
-
-	-- Client menu
-	------------------------------------------------------------
-	self.float.clientmenu.enable_tagline = true
-	self.float.clientmenu.hide_action = { min = false, move = false }
 
 	-- Top processes
 	------------------------------------------------------------
@@ -227,8 +196,10 @@ function theme:update()
 
 	-- Hotkeys helper
 	------------------------------------------------------------
-	self.float.hotkeys.geometry = { width = 1800 }
-	self.float.hotkeys.heights = { key = 26, title = 32 }
+	--self.float.hotkeys.geometry = { width = 1800 }
+	--self.float.hotkeys.geometry = { left = 50, width = 10, height = 100}
+	--self.float.hotkeys.heights = { key = 26, title = 32 }
+	self.float.hotkeys.heights = { key = 30, title = 5 }
 
 	-- Key sequence tip
 	------------------------------------------------------------
@@ -238,26 +209,6 @@ function theme:update()
 	-- Brightness control
 	------------------------------------------------------------
 	self.float.brightness.notify = { icon = self.wicon.brightness }
-
-	-- Floating calendar
-	------------------------------------------------------------
-	self.float.calendar.geometry = { width = 364, height = 460 }
-	self.float.calendar.border_width = 0
-	self.float.calendar.show_week_numbers = false
-	self.float.calendar.calendar_item_margin = { 4, 8, 2, 2 }
-	self.float.calendar.spacing = { separator = 26, datetime = 5, controls = 5, calendar = 12 }
-	self.float.calendar.separator = { marginh = { 0, 0, 12, 12 } }
-
-	-- dirty colors correction
-	self.float.calendar.color = {
-		border    = self.color.border,
-		wibox     = self.color.wibox,
-		icon      = self.color.icon,
-		main      = "transparent",
-		highlight = self.color.main,
-		gray      = self.color.gray,
-		text      = self.color.text,
-	}
 
 	-- Floating window control helper
 	------------------------------------------------------------

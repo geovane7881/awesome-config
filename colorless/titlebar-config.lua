@@ -125,16 +125,26 @@ function titlebar:init()
 						spacing = style.icon.gap,
 						layout = wibox.layout.fixed.horizontal()
 					},
-					top = 1, bottom = 1, right = 4,
+                    --margins
+					--top = 1, bottom = 1, right = 4,
+                    --deixando apenas a margin de baixo pra não ficar grande
+					--bottom = 2,
 					widget = wibox.container.margin
 				},
 				layout = wibox.layout.align.horizontal,
 			})
 
+            --nao alterar a ordem
 			-- Set both models to titlebar
-			redtitle.add_layout(c, nil, base, style.base.size)
+      -- modelo vazio
+			redtitle.add_layout(c, nil, nil, 0)
+      -- modelo normal
 			redtitle.add_layout(c, nil, iconic, style.iconic.size)
+			--redtitle.add_layout(c, nil, base, style.base.size)
+
+
 			redtitle.switch(c, nil, redtitle._index)
+      redtitle.global_switch(1)
 
 			-- hide titlebar when window maximized
 			if c.maximized_vertical or c.maximized then on_maximize(c) end

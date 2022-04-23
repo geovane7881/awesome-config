@@ -25,15 +25,44 @@ function env:init(args)
 	local theme = args.theme or "colorless"
 
 	-- environment vars
-	self.terminal = args.terminal or "x-terminal-emulator"
+	self.updates = args.updates or "bash -c 'pacman -Qu | grep -v ignored | wc -l'"
+	self.themedir = awful.util.get_configuration_dir() .. "themes/" .. theme
+	self.home = os.getenv("HOME")
+  self.terminal = os.getenv("TERMCMD") or 'kitty'
 	self.mod = args.mod or "Mod4"
 	self.fm = args.fm or "nautilus"
-	self.home = os.getenv("HOME")
-	self.themedir = awful.util.get_configuration_dir() .. "themes/" .. theme
+	self.document_viewer = "evince"
+  self.player = args.player or "mpd"
+  self.browser = os.getenv("BROWSER") or "google-chrome"
+  --vivaldi, no localhost, meu segundo navegador
+  self.browser2 = "vivaldi-stable http://localhost"
+  --self.player = args.player or "spotify"
+  --self.player = args.player or "mopidy"
+  --qute com o popup do rofi, meu navegador padrão
+  -- self.browser = "sh "..self.home.."/.scripts/qute.sh"
+	self.mpsyt = "sh "..self.home.."/.scripts/setup_player.sh"
+  self.screenshot_d = "bash -c 'gnome-screenshot -w'"
+  self.screenshot_a = "bash -c 'gnome-screenshot -a'"
+  self.screenshot_o = "bash -c 'gnome-screenshot --interactive'"
+
+  --terminal apps
+  self.terminal_cmd = "bash -c '"..self.terminal.."'"
+	self.editor = "bash -c '"..self.terminal.." -e nvim'"
+  --self.terminal_fm = "bash -c '"..self.terminal.." -e ranger'"
+  self.terminal_fm = "bash -c '"..self.terminal.." -e lf'"
+  self.email = "bash -c '"..self.terminal.." -e neomutt'"
+  self.newsboat = "bash -c '"..self.terminal.." -e newsboat'";
+
+  -- music
+	self.player_cmd = "bash -c '"..self.terminal.." -e ncmpcpp'"
+  self.player_play_pause = "playerctl play-pause"
+  self.player_previous = "playerctl previous"
+  self.player_next = "playerctl next"
 
 	-- boolean defaults is pain
 	self.sloppy_focus = args.sloppy_focus or false
-	self.color_border_focus = args.color_border_focus or false
+  self.color_border_focus = args.color_border_focus or false
+	-- self.color_border_focus = true
 	self.set_slave = args.set_slave == nil and true or false
 	self.desktop_autohide = args.desktop_autohide or false
 	self.set_center = args.set_center or false

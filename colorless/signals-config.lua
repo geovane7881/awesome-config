@@ -21,6 +21,7 @@ local function do_sloppy_focus(c)
 end
 
 local function fixed_maximized_geometry(c, context)
+  local layout  = awful.layout.getname(awful.layout.get(s))
 	if c.maximized and context ~= "fullscreen" then
 		c:geometry({
 			x = c.screen.workarea.x,
@@ -45,7 +46,7 @@ function signals:init(args)
 			-- put client at the end of list
 			if env.set_slave then awful.client.setslave(c) end
 
-			-- startup placement
+        -- startup placement
 			if awesome.startup
 			   and not c.size_hints.user_position
 			   and not c.size_hints.program_position
@@ -61,14 +62,14 @@ function signals:init(args)
 	)
 
 	-- add missing borders to windows that get unmaximized
-	client.connect_signal(
-		"property::maximized",
-		function(c)
-			if not c.maximized then
-				c.border_width = beautiful.border_width
-			end
-		end
-	)
+	-- client.connect_signal(
+	-- 	"property::maximized",
+	-- 	function(c)
+	-- 		if not c.maximized then
+	-- 			c.border_width = beautiful.border_width
+	-- 		end
+	-- 	end
+	-- )
 
 	-- don't allow maximized windows move/resize themselves
 	client.connect_signal(
@@ -82,10 +83,61 @@ function signals:init(args)
 
 	-- hilight border of focused window
 	-- can be disabled since focus indicated by titlebars in current config
-	if env.color_border_focus then
-		client.connect_signal("focus",   function(c) c.border_color = beautiful.border_focus end)
-		client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
-	end
+  -- client.connect_signal("focus",
+  --   function(c)
+  --     if env.color_border_focus == true and c.maximized_horizontal == false and c.maximized_vertical == false then
+  --      c.border_color = beautiful.border_focus
+  --     end
+  --   end
+  -- )
+  -- client.connect_signal("focus",
+  -- function(c)
+  --   if c.maximized_horizontal == true and c.maximized_vertical == true then
+  --     c.border_color = beautiful.border_normal
+  --   else
+  --     c.border_color = beautiful.border_focus
+  --   end
+  -- end)
+
+  -- client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+
+-- No border for maximized clients
+
+-- https://github.com/awesomeWM/awesome/issues/171
+client.connect_signal("focus",
+  function(c)
+    if c.maximized_horizontal == true and c.maximized_vertical == true then
+      c.border_color = beautiful.border_normal
+    else
+      c.border_color = beautiful.border_focus
+    end
+  end)
+
+client.connect_signal("unfocus",
+  function(c) c.border_color = beautiful.border_normal
+  end)
+
+-- Arrange signal handler
+for s = 1, screen.count() do screen[s]:connect_signal("arrange", 
+  function ()
+    local clients = awful.client.visible(s)
+    local layout  = awful.layout.getname(awful.layout.get(s))
+
+    if #clients > 0 then -- Fine grained borders and floaters control
+      for _, c in pairs(clients) do -- Floaters always have borders
+        if (awful.client.floating.get(c) or layout == "floating") and c.maximized == false then
+          c.border_width = beautiful.border_width
+
+        -- No borders with only one visible client, or maximized client
+        elseif #clients == 1 or layout == "max" or c.maximized == true then
+          c.border_width = 0
+        else
+          c.border_width = beautiful.border_width
+        end
+      end
+    end
+  end)
+end
 
 	-- wallpaper update on screen geometry change
 	screen.connect_signal("property::geometry", env.wallpaper)
@@ -101,3 +153,5 @@ end
 -- End
 -----------------------------------------------------------------------------------------------------------------------
 return signals
+
+

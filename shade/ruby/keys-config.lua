@@ -22,7 +22,6 @@ local redtip = redflat.float.hotkeys
 local laycom = redflat.layout.common
 local grid = redflat.layout.grid
 local map = redflat.layout.map
-local logout = redflat.service.logout
 local qlaunch = redflat.float.qlaunch
 local numkeys_line = { "1", "2", "3", "4", "5", "6", "7", "8", "9" }
 local tagkeys_line = { "q", "w", "e", "r", "t", "y", "u", "i", "o" }
@@ -166,16 +165,9 @@ local function tag_numkey(i, mod, action)
 	)
 end
 
--- brightness control using custom script
-local brightness_control = {
-	increase = "~/.config/awesome/scripts/brightness.py --inc=%s",
-	decrease = "~/.config/awesome/scripts/brightness.py --dec=%s",
-}
-
-redflat.float.brightness.default_variant = brightness_control
-
+-- brightness functions
 local brightness = function(args)
-	redflat.float.brightness:change(args)
+	redflat.float.brightness:change_with_xbacklight(args) -- use xbacklight utility
 end
 
 -- right bottom corner position
@@ -253,21 +245,6 @@ function hotkeys:init(args)
 
 	 apprunner:set_keys(awful.util.table.join(apprunner.keys.move, apprunner_keys_move), "move")
 	--apprunner:set_keys(apprunner_keys_move, "move")
-
-	-- Log out screen
-	------------------------------------------------------------
-	local logout_extra_keys = {
-		{
-			{}, "j", logout.action.select_prev,
-			{ description = "Select previous option", group = "Selection" }
-		},
-		{
-			{}, "l", logout.action.select_next,
-			{ description = "Select next option", group = "Selection" }
-		},
-	}
-
-	logout:set_keys(awful.util.table.join(logout.keys, logout_extra_keys))
 
 	-- Menu widget
 	------------------------------------------------------------
@@ -790,7 +767,7 @@ function hotkeys:init(args)
 			{ description = "Open a terminal", group = "Applications" }
 		},
 		{
-			{ env.mod, "Mod1" }, "space", function() awful.spawn("gpaste-client ui") end,
+			{ env.mod, "Mod1" }, "space", function() awful.spawn("clipflap --show") end,
 			{ description = "Clipboard manager", group = "Applications" }
 		},
 
@@ -834,10 +811,6 @@ function hotkeys:init(args)
 		{
 			{ env.mod }, "c", function() redflat.float.keychain:activate(keyseq, "User") end,
 			{ description = "User key sequence", group = "Widgets" }
-		},
-		{
-			{ env.mod }, "z", function() redflat.service.logout:show() end,
-			{ description = "Log out screen", group = "Widgets" }
 		},
 
 		{
@@ -1027,18 +1000,11 @@ function hotkeys:init(args)
 
 	-- Mouse buttons
 	--------------------------------------------------------------------------------
-	local function game_safe_kill(c)
-		local current_tag = awful.screen.focused().selected_tag
-		if current_tag and current_tag.name and current_tag.name:lower() ~= "game" then
-			c:kill()
-		end
-	end
-
 	self.mouse.client = awful.util.table.join(
 		awful.button({}, 1, function (c) client.focus = c; c:raise() end),
 		awful.button({}, 2, awful.mouse.client.move),
 		awful.button({ env.mod }, 3, awful.mouse.client.resize),
-		awful.button({}, 8, game_safe_kill)
+		awful.button({}, 8, function(c) c:kill() end)
 	)
 
 	-- Set root hotkeys

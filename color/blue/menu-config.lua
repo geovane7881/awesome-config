@@ -25,17 +25,14 @@ function menu:init(args)
 	local icon_style = args.icon_style or { custom_only = true, scalable_only = true }
 
 	-- theme vars
-	local default_icon = redflat.util.base.placeholder()
-	local icon = redflat.util.table.check(beautiful, "icon.awesome") and beautiful.icon.awesome or default_icon
+	local deficon = redflat.util.base.placeholder()
+	local icon = redflat.util.table.check(beautiful, "icon.awesome") and beautiful.icon.awesome or deficon
 	local color = redflat.util.table.check(beautiful, "color.icon") and beautiful.color.icon or nil
 
 	-- icon finder
 	local function micon(name)
 		return redflat.service.dfparser.lookup_icon(name, icon_style)
 	end
-
-	-- extra commands
-	local ranger_comm = env.terminal .. " -e ranger"
 
 	-- Application submenu
 	------------------------------------------------------------
@@ -83,8 +80,7 @@ function menu:init(args)
 			{ "Places",        placesmenu,  micon("folder_home"), key = "c" },
 			separator,
 			{ "Terminal",      env.terminal, micon("terminal") },
-			{ "Nemo",          env.fm,       micon("folder"), key = "n" },
-			{ "Ranger",        ranger_comm,  micon("folder"), key = "r" },
+			{ "File Manager",  env.fm,       micon("folder"), key = "n" },
 			{ "Editor",        "emacs",      micon("emacs") },
 			separator,
 			{ "Exit",          exitmenu,     micon("exit") },

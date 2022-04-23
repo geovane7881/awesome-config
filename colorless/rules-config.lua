@@ -5,8 +5,8 @@
 -- Grab environment
 local awful =require("awful")
 local beautiful = require("beautiful")
+local redflat = require("redflat")
 
--- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
 local rules = {}
 
@@ -24,7 +24,7 @@ rules.floating_any = {
 	instance = { "DTA", "copyq", },
 	class = {
 		"Arandr", "Gpick", "Kruler", "MessageWin", "Sxiv", "Wpa_gui", "pinentry", "veromix",
-		"xtightvncviewer"
+		"xtightvncviewer", "Gnome-calculator",
 	},
 	name = { "Event Tester", },
 	role = { "AlarmWindow", "pop-up", }

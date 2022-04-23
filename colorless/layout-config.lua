@@ -7,6 +7,7 @@ local awful = require("awful")
 local redflat = require("redflat")
 local beautiful = require("beautiful")
 
+
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
 local layouts = {}
@@ -17,8 +18,10 @@ local layouts = {}
 function layouts:init()
 
 	-- layouts list
+    -- mudando a ordem
 	local layset = {
-		awful.layout.suit.floating,
+		awful.layout.suit.spiral,
+		awful.layout.suit.max,
 		awful.layout.suit.tile,
 		awful.layout.suit.tile.left,
 		awful.layout.suit.tile.bottom,
@@ -28,12 +31,11 @@ function layouts:init()
 		awful.layout.suit.corner.ne,
 		awful.layout.suit.corner.sw,
 		awful.layout.suit.corner.se,
-		awful.layout.suit.spiral,
 		awful.layout.suit.magnifier,
-		awful.layout.suit.max,
 		awful.layout.suit.max.fullscreen,
 		redflat.layout.grid,
 		redflat.layout.map,
+		awful.layout.suit.floating,
 	}
 
 	awful.layout.layouts = layset
@@ -66,6 +68,7 @@ end)
 client.connect_signal("untagged", function(c, t)
 	if redflat.layout.map.data[t] then redflat.layout.map.clean_client(c) end
 end)
+
 
 -- End
 -----------------------------------------------------------------------------------------------------------------------

@@ -27,7 +27,6 @@ appnames["Thunderbird"         ] = "TBIRD"
 appnames["jetbrains-pycharm-ce"] = "PYCRM"
 appnames["jetbrains-clion"     ] = "CLION"
 appnames["Qemu-system-x86_64"  ] = "QEMU"
-appnames["Gpaste-ui"           ] = "PASTE"
 
 return appnames
 

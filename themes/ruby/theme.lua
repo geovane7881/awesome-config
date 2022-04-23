@@ -218,7 +218,6 @@ theme.gauge.monitor.dash.width = 11
 -- Tasklist
 theme.widget.tasklist.char_digit = 5
 theme.widget.tasklist.task = theme.gauge.task.ruby
-theme.widget.tasklist.tasktip.max_width = 1200
 
 -- KB layout indicator
 theme.widget.keyboard.icon = theme.path .. "/widget/keyboard.svg"
@@ -245,14 +244,6 @@ theme.individual.microphone_audio = {
 
 -- Titlebar helper
 theme.float.bartip.names = { "Mini", "Compact", "Full" }
-
--- client menu tag line
-theme.widget.tasklist.winmenu.enable_tagline = false
-theme.widget.tasklist.winmenu.icon.tag = theme.path .. "/widget/mark.svg"
-
-theme.float.clientmenu.enable_tagline = false
-theme.float.clientmenu.icon.tag = theme.widget.tasklist.winmenu.icon.tag
-
 
 -- Set hotkey helper size according current fonts and keys scheme
 --------------------------------------------------------------------------------

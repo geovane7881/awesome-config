@@ -13,24 +13,29 @@ local autostart = {}
 --------------------------------------------------------------------------------
 function autostart.run()
 	-- environment
-	awful.spawn.with_shell("python ~/scripts/env/pa-setup.py")
-	awful.spawn.with_shell("python ~/scripts/env/color-profile-setup.py")
-	awful.spawn.with_shell("python ~/scripts/env/kbd-setup.py")
+	--awful.spawn.with_shell("python ~/scripts/env/pa-setup.py")
+  --
 
-	-- gnome environment
-	awful.spawn.with_shell("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
-
-	-- firefox sync
-	awful.spawn.with_shell("python ~/scripts/firefox/ff-sync.py")
-
-	-- utils
-	awful.spawn.with_shell("compton")
+	---- utils
+  --desativado até por um atalho de desativar
+  --awful.spawn.with_shell("compton --config ~/.config/compton/compton.conf")
+  awful.spawn.with_shell("picom -b --experimental-backends --dbus --config '" .. os.getenv("HOME") .. "/.config/picom.conf'")
 	awful.spawn.with_shell("nm-applet")
+	awful.spawn.with_shell("mopidy")
+  --desnecessário
+	--awful.spawn.with_shell("mpDris2")
+  --conky
+  awful.spawn.with_shell("conky -d -c ~/.config/conky/conky.config")
+	---- apps
+  --ex:
+	--awful.spawn.with_shell("clipflap")
+	--awful.spawn.with_shell("transmission-gtk -m")
+	--awful.spawn.with_shell("pragha --toggle_view")
+  --redshift
+	awful.spawn.with_shell("redshift-gtk")
+  -- teclado
+	awful.spawn.with_shell("~/.scripts/teclado.sh")
 
-	-- apps
-	awful.spawn.with_shell("clipflap")
-	awful.spawn.with_shell("transmission-gtk -m")
-	awful.spawn.with_shell("pragha --toggle_view")
 end
 
 -- Read and commads from file and spawn them
