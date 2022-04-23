@@ -3,10 +3,38 @@ Custom config for [Awesome WM](http://awesome.naquadah.org).
 
 This config is compatible with AwesomeWM version 4.0 and newer.
 
+# Notes from this fork.
+
+This is the awesome-wm configuration I currently use, its mostly colorless theme from [Worron](https://github.com/worron), with some changes.
+
+I change some stuff with signals, some fixes that I needed, configured titlebars, colors (dynamic from [WPGTK](https://github.com/deviantfero/wpgtk)) added my custom keybindings, an alternate [Application Switcher](https://github.com/berlam/awesome-switcher) etc.
+
+I'd like to thank [Worron](https://github.com/worron) and everyone else who contributed to this setup.
+
+### Some extra dependencies
+
+- awesomewm git
+- kitty, default terminal
+- picom for composition
+- wpgtk and pywall for colors
+- luarocks and lua-json (to read colors from json)
+- playerctl and mpdris2 for the audio to work properly
+- rofi
+- and some default apps that I used.
+
+
 ## Screenshot
-![](https://github.com/worron/awesome-config/wiki/images/v400/ruby.png)
-<!--suppress HtmlDeprecatedAttribute --><p align="center"><a href="https://github.com/worron/awesome-config/wiki">Gallery</a></p>
-<!--suppress HtmlDeprecatedAttribute --><p align="center"><a href="https://youtu.be/_1M1Wv64JGA">Video Demo</a></p>
+<!--suppress HtmlDeprecatedAttribute --><p align="center">Dark - My forked version</p>
+![Forked Version - Custom Colorless Theme](https://imgur.com/a/jshYrrP)
+
+
+<br />
+<br />
+<br />
+
+<!--suppress HtmlDeprecatedAttribute --><p align="center">Original version</p>
+![Original version](https://github.com/worron/awesome-config/wiki/images/v400/ruby.png)
+<!--suppress HtmlDeprecatedAttribute --><p align="center"><a href="https://github.com/worron/awesome-config/wiki">Gallery</a> | <a href="https://youtu.be/_1M1Wv64JGA">Video Demo</a></p>
 
 ## Description
 Advanced user config for `awesome` consist of a bunch of new widgets, 
