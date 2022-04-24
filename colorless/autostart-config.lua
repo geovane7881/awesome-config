@@ -25,7 +25,7 @@ function autostart.run()
   --desnecessário
 	--awful.spawn.with_shell("mpDris2")
   --conky
-  awful.spawn.with_shell("conky -d -c ~/.config/conky/conky.config")
+  -- awful.spawn.with_shell("conky -d -c ~/.config/conky/conky.config")
 	---- apps
   --ex:
 	--awful.spawn.with_shell("clipflap")

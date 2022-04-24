@@ -664,6 +664,10 @@ function hotkeys:init(args)
 			{ description = "Close", group = "Client keys" }
 		},
 		{
+			{ env.mod }, "f", function(c) c.floating = not c.floating  end,
+			{ description = "Toggle floating", group = "Client keys" }
+		},
+		{
 			{ env.mod, "Control" }, "f", awful.client.floating.toggle,
 			{ description = "Toggle floating menu", group = "Client keys" }
 		},
