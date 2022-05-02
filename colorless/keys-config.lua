@@ -29,6 +29,16 @@ local laycom = redflat.layout.common
 
 -- Key support functions
 -----------------------------------------------------------------------------------------------------------------------
+-- Move client to screen
+local function move_to_screen(dir)
+	return function()
+		if client.focus then
+			client.focus:move_to_screen(dir == "right" and client.focus.screen.index + 1 or client.focus.screen.index - 1)
+			client.focus:raise()
+		end
+	end
+end
+
 local focus_switch_byd = function(dir)
 	return function()
 		awful.client.focus.bydirection(dir)
@@ -519,9 +529,13 @@ function hotkeys:init(args)
 			{ env.mod }, "p", function() awful.spawn("sh " .. env.home .. "/.scripts/rofi/mpdmenu.sh") end,
 			{ description = "Mpd control", group = "Rofi" }
 		},
+		-- {
+		-- 	{ env.mod }, "0", function() awful.spawn("sh " .. env.home .. "/.scripts/rofi/powermenu.sh") end,
+		-- 	{ description = "Exit options", group = "Rofi" }
+		-- },
 		{
-			{ env.mod }, "0", function() awful.spawn("sh " .. env.home .. "/.scripts/rofi/powermenu.sh") end,
-			{ description = "Exit options", group = "Rofi" }
+			{ env.mod }, "0", function() redflat.service.logout:show() end,
+			{ description = "Log out screen", group = "Widgets" }
 		},
 		{
 			{ env.mod, "Shift" }, "n", function() awful.spawn("sh " .. env.home .. "/.scripts/rofi/notes.sh") end,
@@ -532,7 +546,7 @@ function hotkeys:init(args)
 			{ description = "Websearch", group = "Rofi" }
 		},
 		{
-			{ env.mod, "Shift" }, "l", function() awful.spawn("sh " .. env.home .. "/.scripts/rofi/locate.sh") end,
+			{ env.mod, "Shift" }, "i", function() awful.spawn("sh " .. env.home .. "/.scripts/rofi/locate.sh") end,
 			{ description = "Locate files", group = "Rofi" }
 		},
 		{
@@ -550,6 +564,43 @@ function hotkeys:init(args)
 		{
 			{ env.mod, "Control" }, "f", function() redflat.float.control:show() end,
 			{ description = "[Hold] Floating window control mode", group = "Window control" }
+		},
+    {
+			{ env.mod, "Control"}, "h",
+			function()
+				awful.screen.focus_bydirection("left")
+				if client.focus then client.focus:raise() end
+			end,
+			{ description = "Go to previous monitor", group = "Client focus"}
+		},
+		{
+			{ env.mod, "Control"}, "l",
+			function()
+				awful.screen.focus_bydirection("right")
+				if client.focus then client.focus:raise() end
+			end,
+			{ description = "Go to next monitor", group = "Client focus"}
+		},
+		{
+			{ env.mod, "Shift" }, "l",
+			function ()
+				awful.client.swap.byidx(1)
+			end,
+			{ description = "swap with next client by index", group = "Client swap"}
+		},
+		{
+			{ env.mod, "Shift" }, "h", function ()
+				awful.client.swap.byidx(-1)
+			end,
+			{ description = "swap with previous client by index", group = "Client swap"}
+		},
+		{
+			{ env.mod, "Control", "Shift" }, "h", move_to_screen("left"),
+			{ description = "Move client to the next screen", group = "Client swap"}
+		},
+		{
+			{ env.mod, "Control", "Shift" }, "l", move_to_screen("right"),
+			{ description = "Move client to the next screen", group = "Client swap"}
 		},
 		{
 			{ env.mod }, "l", focus_switch_byd("right"),

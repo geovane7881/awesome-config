@@ -4,10 +4,12 @@
 
 -- Grab environment
 local awful = require("awful")
+local env = require("colorless.env-config") -- load file with environment
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
 local autostart = {}
+env:init()
 
 -- Application list function
 --------------------------------------------------------------------------------
@@ -35,6 +37,33 @@ function autostart.run()
 	awful.spawn.with_shell("redshift-gtk")
   -- teclado
 	awful.spawn.with_shell("~/.scripts/teclado.sh")
+
+
+  -- programas dia a dia
+
+
+  -- por mais: notion, youtubemusic, etc
+ 
+  -- chrome
+  awful.spawn(env.browser, {
+      floating  = true,
+      tag       = mouse.screen.selected_tag,
+      screen = awful.screen[0]
+  })
+
+  -- nvim
+  awful.spawn(env.editor .. ' ~/dev/front', {
+      floating  = true,
+      tag       = mouse.screen.selected_tag,
+  })
+
+  -- discord
+  awful.spawn('discord', {
+    floating = false,
+    tag = awful.tag.find_by_name(awful.screen.focused(), "Tag5"),
+    screen = 1 or 0,
+    switch_to_tags = true,
+  })
 
 end
 
