@@ -10,6 +10,7 @@ local redflat = require("redflat")
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
 local hotkeys = { mouse = {}, raw = {}, keys = {}, fake = {} }
+local inspect = require('inspect')
 
 -- key aliases
 local apprunner = redflat.float.apprunner
@@ -109,6 +110,23 @@ local function client_numkey(i, mod, action)
 			end
 		end
 	)
+end
+
+-- rodar aplicacao uma vez
+local function run_once(cmd_arr)
+    for _, cmd in ipairs(cmd_arr) do
+        findme = cmd
+        if cmd == 'google-chrome' or cmd == '/usr/bin/google-chrome' then
+          findme = 'chrome'
+        end
+
+        firstspace = cmd:find(" ")
+        if firstspace then
+            findme = cmd:sub(0, firstspace-1)
+        end
+        awful.spawn.with_shell(string.format("pgrep -u $USER -x %s > /dev/null || (%s)", findme, 
+cmd))
+    end
 end
 
 -- brightness functions
@@ -445,43 +463,75 @@ function hotkeys:init(args)
 			{ env.mod, "Control" }, "r", awesome.restart,
 			{ description = "Reload awesome", group = "Main" }
 		},
+		{
+			{ env.mod }, "s", function() mainmenu:show() end,
+			{ description = "Main menu", group = "Launchers" }
+		},
 		-------------------------------------------------------------------------------------
-        --lançadores para meus programas
+    -- lançadores para meus programas
 		{
 			{ env.mod }, "Return", function() awful.spawn(env.terminal_cmd) end,
 			{ description = "Open a terminal", group = "Launchers" }
 		},
 		{
-			{ env.mod }, "n", function() awful.spawn(env.editor) end,
+			{ env.mod }, "n",  function()
+        awful.spawn.single_instance(env.editor)
+        local screen = awful.screen.focused()
+        local tag = screen.tags[2]
+        if tag then
+          tag:view_only()
+          for _, c in ipairs(client.get()) do
+            if c.name == "nvim" then
+              client.focus = c
+              c:raise()
+            end
+          end
+        end
+      end,
 			{ description = "Terminal text editor (nvim)", group = "Launchers" }
 		},
 		{
-			{}, "Print", function() awful.spawn(env.screenshot_o) end,
-			{ description = "Screen Capture Window", group = "Launchers" }
-		},
-		-- {
-		-- 	{ "Shift" }, "Print", function() awful.spawn(env.screenshot_a) end,
-		-- 	{ description = "Screen Capture Area", group = "Launchers" }
-		-- },
-		-- {
-		-- 	{ "Control" }, "Print", function() awful.spawn(env.screenshot_o) end,
-		-- 	{ description = "Screen Capture Interactive", group = "Launchers" }
-		-- },
-		{
-			{ env.mod }, "w", function() awful.spawn(env.browser) end,
+			{ env.mod }, "w", function()
+        run_once({env.browser})
+        local screen = awful.screen.focused()
+        local tag = screen.tags[2]
+        if tag then
+          tag:view_only()
+          for _, c in ipairs(client.get()) do
+            if c.class == "Google-chrome" then
+              client.focus = c
+              c:raise()
+            end
+          end
+        end
+      end,
 			{ description = "Web browser", group = "Launchers" }
 		},
-		-- {
-		-- 	{ env.mod, "Shift" }, "F2", function() awful.spawn(env.browser2) end,
-		-- 	{ description = "Alternative browser", group = "Launchers" }
-		-- },
+		{
+			{ env.mod, "Shift" }, "d", function()
+          awful.spawn(env.discord)
+          local screen = awful.screen.focused()
+          local tag = screen.tags[4]
+          if tag then
+            tag:view_only()
+          end
+        end,
+			{ description = "Discord", group = "Launchers" }
+		},
+		{
+			{ env.mod, "Shift" }, "r", function()
+          awful.spawn(env.fm)
+          local screen = awful.screen.focused()
+          local tag = screen.tags[3]
+          if tag then
+            tag:view_only()
+          end
+        end,
+			{ description = "GUI file browser", group = "Launchers" }
+		},
 		{
 			{ env.mod }, "r", function() awful.spawn(env.terminal_fm) end,
 			{ description = "Terminal file browser", group = "Launchers" }
-		},
-		{
-			{ env.mod, "Shift" }, "r", function() awful.spawn(env.fm) end,
-			{ description = "GUI file browser", group = "Launchers" }
 		},
 		{
 			{ env.mod }, "y", function() awful.spawn(env.player_cmd) end,
@@ -503,12 +553,14 @@ function hotkeys:init(args)
 		-- 	{ env.mod }, "F8", function() awful.spawn(env.email) end,
 		-- 	{ description = "Email on mutt", group = "Launchers" }
 		-- },
+    
 		-------------------------------------------------------------------------------------
-		--scripts
-		--mudar para um terminal dropdown
+		-- Scripts
+		-------------------------------------------------------------------------------------
+		-- mudar para um terminal dropdown
 		--{
 		--	{ env.mod }, "c", function() awful.spawn("sh "..env.home.."/.scripts/rofi-run.sh") end,
-        --    --{}
+    --   {}
 		--	{ description = "rofi run", group = "Launchers" }
 		--},
 		-- {
@@ -516,11 +568,8 @@ function hotkeys:init(args)
 		-- 	{ description = "abre o link do clipboard", group = "Launchers" }
 		-- },
 
-		{
-			{ env.mod }, "s", function() mainmenu:show() end,
-			{ description = "Main menu", group = "Launchers" }
-		},
-        --rofi
+		-------------------------------------------------------------------------------------
+    -- Rofi
 		{
 			{ env.mod }, "d", function() awful.spawn("sh " .. env.home .. "/.scripts/rofi/appsmenu.sh") end,
 			{ description = "Application launcher", group = "Rofi" }
@@ -553,6 +602,7 @@ function hotkeys:init(args)
 			{ env.mod }, "b", function() awful.spawn("sh " .. env.home .. "/.scripts/rofi/bookmark.sh") end,
 			{ description = "Bookmarks", group = "Rofi" }
 		},
+		-------------------------------------------------------------------------------------
 		{
 			{ env.mod }, "m", function () redflat.service.navigator:run() end,
 			{ description = "[Hold] Tiling window control mode", group = "Window control" }
@@ -619,7 +669,7 @@ function hotkeys:init(args)
 			{ description = "Go to lower client", group = "Client focus" }
 		},
 
-        --troca rapida de client usando alt tab
+    -- troca rapida de client usando alt tab
 		{
 			{ "Mod1" }, "Tab", focus_to_previous,
 			{ description = "Go to previous client", group = "Client focus" }
@@ -628,7 +678,7 @@ function hotkeys:init(args)
 			{ "Mod1", "Shift" }, "Tab", focus_to_next,
 			{ description = "Go to next client", group = "Client focus" }
 		},
-        --troca rapida de tag usando alt esc (ver uma função melhor)
+    -- troca rapida de tag usando alt esc (ver uma função melhor)
 		{
 			{ "Mod1" }, "Escape", awful.tag.history.restore,
 			{ description = "Swith to previos tag by history", group = "Tag navigation" }
@@ -700,6 +750,10 @@ function hotkeys:init(args)
 		{
 			{ env.mod }, ",", function() redflat.float.player:action("Previous") end,
 			{ description = "Previous track", group = "Audio player" }
+		},
+		{
+			{}, "Print", function() awful.spawn(env.screenshot_o) end,
+			{ description = "Screen Capture Window", group = "Launchers" }
 		},
 	}
 

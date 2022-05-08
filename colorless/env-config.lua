@@ -34,6 +34,7 @@ function env:init(args)
 	self.document_viewer = "evince"
   self.player = args.player or "mpd"
   self.browser = os.getenv("BROWSER") or "google-chrome"
+  self.discord = "discord"
   --vivaldi, no localhost, meu segundo navegador
   self.browser2 = "vivaldi-stable http://localhost"
   --self.player = args.player or "spotify"

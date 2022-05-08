@@ -40,30 +40,27 @@ function autostart.run()
 
 
   -- programas dia a dia
-
-
   -- por mais: notion, youtubemusic, etc
  
   -- chrome
   awful.spawn(env.browser, {
-      floating  = true,
-      tag       = mouse.screen.selected_tag,
-      screen = awful.screen[0]
+      -- floating  = false,
+      -- tag       = mouse.screen.selected_tag
+      -- screen = awful.screen[0]
   })
 
   -- nvim
   awful.spawn(env.editor .. ' ~/dev/front', {
-      floating  = true,
-      tag       = mouse.screen.selected_tag,
+      -- floating  = false,
+      -- tag       = mouse.screen.selected_tag
   })
 
   -- discord
-  awful.spawn('discord', {
-    floating = false,
-    tag = awful.tag.find_by_name(awful.screen.focused(), "Tag5"),
-    screen = 1 or 0,
-    switch_to_tags = true,
-  })
+  awful.spawn('discord')--, {
+    -- floating = false
+    -- screen = awful.screen[0],
+    -- switch_to_tags = true,
+  --})
 
 end
 
