@@ -21,9 +21,9 @@ function autostart.run()
 	---- utils
   --desativado até por um atalho de desativar
   --awful.spawn.with_shell("compton --config ~/.config/compton/compton.conf")
-  awful.spawn.with_shell("picom -b --experimental-backends --dbus --config '" .. os.getenv("HOME") .. "/.config/picom.conf'")
+  awful.spawn.with_shell("picom -b")
 	awful.spawn.with_shell("nm-applet")
-	awful.spawn.with_shell("mopidy")
+	-- awful.spawn.with_shell("mopidy")
   --desnecessário
 	--awful.spawn.with_shell("mpDris2")
   --conky

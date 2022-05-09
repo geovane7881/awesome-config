@@ -78,7 +78,7 @@ function rules:init(args)
           if not skipMovingGC then
             local tag = tags[2]
             c:move_to_tag(tag)
-            c:move_to_screen()
+            -- c:move_to_screen()
             --skipMovingGC = true
           end
         end },
