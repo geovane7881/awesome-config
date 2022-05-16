@@ -34,7 +34,7 @@ function autostart.run()
 	--awful.spawn.with_shell("transmission-gtk -m")
 	--awful.spawn.with_shell("pragha --toggle_view")
   --redshift
-	awful.spawn.with_shell("redshift-gtk")
+	awful.spawn.with_shell("redshift -O 3700k")
   -- teclado
 	awful.spawn.with_shell("~/.scripts/teclado.sh")
 
