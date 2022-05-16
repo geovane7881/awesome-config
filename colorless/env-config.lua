@@ -32,14 +32,19 @@ function env:init(args)
 	self.mod = args.mod or "Mod4"
 	self.fm = args.fm or "nautilus"
 	self.document_viewer = "evince"
-  self.player = args.player or "mpd"
+	self.vscode = "code"
+	self.postman = "postman"
+	self.dbeaver = "dbeaver"
+	self.intellij = "intellij"
+	self.notion = "notion-desktop"
   self.browser = os.getenv("BROWSER") or "google-chrome"
   self.discord = "discord"
-  --vivaldi, no localhost, meu segundo navegador
-  self.browser2 = "vivaldi-stable http://localhost"
-  --self.player = args.player or "spotify"
-  --self.player = args.player or "mopidy"
-  --qute com o popup do rofi, meu navegador padrão
+  self.player = args.player or "mpd"
+  -- vivaldi, no localhost, meu segundo navegador
+  -- self.browser2 = "vivaldi-stable http://localhost"
+  -- self.player = args.player or "spotify"
+  -- self.player = args.player or "mopidy"
+  -- qute com o popup do rofi, meu navegador padrão
   -- self.browser = "sh "..self.home.."/.scripts/qute.sh"
 	self.mpsyt = "sh "..self.home.."/.scripts/setup_player.sh"
   self.screenshot_d = "bash -c 'gnome-screenshot -w'"

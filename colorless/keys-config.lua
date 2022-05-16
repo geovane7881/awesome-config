@@ -4,21 +4,16 @@
 
 -- Grab environment
 local awful = require("awful")
-
 local redflat = require("redflat")
 
 -- Initialize tables and vars for module
------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 local hotkeys = { mouse = {}, raw = {}, keys = {}, fake = {} }
-local inspect = require('inspect')
+-- for debugging
+-- local inspect = require('inspect')
 
--- key aliases
 local apprunner = redflat.float.apprunner
---lento
---local appswitcher = redflat.float.appswitcher
---novo
 local switcher = require("awesome-switcher")
---pra trocar o gaps
 local beautiful = require("beautiful")
 
 local current = redflat.widget.tasklist.filter.currenttags
@@ -28,9 +23,11 @@ local redtip = redflat.float.hotkeys
 local redtitle = redflat.titlebar
 local laycom = redflat.layout.common
 
+--------------------------------------------------------------------------------
 -- Key support functions
------------------------------------------------------------------------------------------------------------------------
--- Move client to screen
+--------------------------------------------------------------------------------
+
+-- move client to screen
 local function move_to_screen(dir)
 	return function()
 		if client.focus then
@@ -112,7 +109,7 @@ local function client_numkey(i, mod, action)
 	)
 end
 
--- rodar aplicacao uma vez
+-- run application once
 local function run_once(cmd_arr)
     for _, cmd in ipairs(cmd_arr) do
         findme = cmd
@@ -407,10 +404,6 @@ function hotkeys:init(args)
 	redflat.layout.map:set_keys(layout_map_layout, "layout")
 	redflat.layout.map:set_keys(layout_map_resize, "resize")
 
-
-
-
-
 	-- Keys for widgets
 	--------------------------------------------------------------------------------
 
@@ -429,8 +422,9 @@ function hotkeys:init(args)
 
 	apprunner:set_keys(awful.util.table.join(apprunner.keys.move, apprunner_keys_move), "move")
 
+	--------------------------------------------------------------------------------
 	-- Menu widget
-	------------------------------------------------------------
+	--------------------------------------------------------------------------------
 	local menu_keys_move = {
 		{
 			{ env.mod }, "k", redflat.menu.action.down,
@@ -452,6 +446,7 @@ function hotkeys:init(args)
 
 	redflat.menu:set_keys(awful.util.table.join(redflat.menu.keys.move, menu_keys_move), "move")
 
+	--------------------------------------------------------------------------------
 	-- Global keys
 	--------------------------------------------------------------------------------
 	self.raw.root = {
@@ -468,10 +463,26 @@ function hotkeys:init(args)
 			{ description = "Main menu", group = "Launchers" }
 		},
 		-------------------------------------------------------------------------------------
-    -- lançadores para meus programas
+    -- Launchers/Switcher to opened Aplications
+		-------------------------------------------------------------------------------------
 		{
 			{ env.mod }, "Return", function() awful.spawn(env.terminal_cmd) end,
 			{ description = "Open a terminal", group = "Launchers" }
+		},
+		{
+			{ env.mod }, "r", function() awful.spawn(env.terminal_fm) end,
+			{ description = "Terminal file browser", group = "Launchers" }
+		},
+		{
+			{ env.mod, "Shift" }, "r", function()
+          awful.spawn(env.fm)
+          local screen = awful.screen.focused()
+          local tag = screen.tags[3]
+          if tag then
+            tag:view_only()
+          end
+        end,
+			{ description = "GUI file browser", group = "Launchers" }
 		},
 		{
 			{ env.mod }, "n",  function()
@@ -488,7 +499,24 @@ function hotkeys:init(args)
           end
         end
       end,
-			{ description = "Terminal text editor (nvim)", group = "Launchers" }
+			{ description = "Neovim", group = "Launchers" }
+		},
+		{
+			{ env.mod }, "v",  function()
+        run_once({env.vscode})
+        local screen = awful.screen.focused()
+        local tag = screen.tags[2]
+        if tag then
+          tag:view_only()
+          for _, c in ipairs(client.get()) do
+            if c.class == "Code" then
+              client.focus = c
+              c:raise()
+            end
+          end
+        end
+      end,
+			{ description = "VSCode", group = "Launchers" }
 		},
 		{
 			{ env.mod }, "w", function()
@@ -505,7 +533,7 @@ function hotkeys:init(args)
           end
         end
       end,
-			{ description = "Web browser", group = "Launchers" }
+			{ description = "Google Chrome", group = "Launchers" }
 		},
 		{
 			{ env.mod, "Shift" }, "d", function()
@@ -519,69 +547,84 @@ function hotkeys:init(args)
 			{ description = "Discord", group = "Launchers" }
 		},
 		{
-			{ env.mod, "Shift" }, "r", function()
-          awful.spawn(env.fm)
-          local screen = awful.screen.focused()
-          local tag = screen.tags[3]
-          if tag then
-            tag:view_only()
+			{ env.mod }, "p",  function()
+        run_once({env.postman})
+        local screen = awful.screen.focused()
+        local tag = screen.tags[3]
+        if tag then
+          tag:view_only()
+          for _, c in ipairs(client.get()) do
+            if c.class == "Postman" then
+              client.focus = c
+              c:raise()
+            end
           end
-        end,
-			{ description = "GUI file browser", group = "Launchers" }
+        end
+      end,
+			{ description = "Postman", group = "Launchers" }
 		},
 		{
-			{ env.mod }, "r", function() awful.spawn(env.terminal_fm) end,
-			{ description = "Terminal file browser", group = "Launchers" }
+			{ env.mod }, "b",  function()
+        run_once({env.dbeaver})
+        local screen = awful.screen.focused()
+        local tag = screen.tags[3]
+        if tag then
+          tag:view_only()
+          for _, c in ipairs(client.get()) do
+            if c.class == "DBeaver" then
+              client.focus = c
+              c:raise()
+            end
+          end
+        end
+      end,
+			{ description = "DBEaver", group = "Launchers" }
+		},
+		{
+			{ env.mod, "Control" }, "n",  function()
+        run_once({env.notion})
+        local screen = awful.screen.focused()
+        local tag = screen.tags[1]
+        if tag then
+          tag:view_only()
+          for _, c in ipairs(client.get()) do
+            if c.class == "notion-desktop" then
+              client.focus = c
+              c:raise()
+            end
+          end
+        end
+      end,
+			{ description = "Notion", group = "Launchers" }
+		},
+		{
+			{ env.mod  }, "i",  function()
+        run_once({env.intellij})
+        local screen = awful.screen.focused()
+        local tag = screen.tags[3]
+        if tag then
+          tag:view_only()
+          for _, c in ipairs(client.get()) do
+            if c.class == "jetbrains-idea-ce" then
+              client.focus = c
+              c:raise()
+            end
+          end
+        end
+      end,
+			{ description = "Intellij", group = "Launchers" }
 		},
 		{
 			{ env.mod }, "y", function() awful.spawn(env.player_cmd) end,
 			{ description = "Music player", group = "Launchers" }
 		},
-		-- {
-		-- 	{ env.mod, "Shift" }, "F5", function() awful.spawn(env.mpsyt) end,
-		-- 	{ description = "Youtube music player", group = "Launchers" }
-		-- },
-		-- {
-		-- 	{ env.mod }, "F6", function() awful.spawn(env.document_viewer) end,
-		-- 	{ description = "Document viewer", group = "Launchers" }
-		-- },
-		-- {
-		-- 	{ env.mod }, "F7", function() awful.spawn(env.newsboat) end,
-		-- 	{ description = "Newsboat", group = "Launchers" }
-		-- },
-		-- {
-		-- 	{ env.mod }, "F8", function() awful.spawn(env.email) end,
-		-- 	{ description = "Email on mutt", group = "Launchers" }
-		-- },
-    
 		-------------------------------------------------------------------------------------
-		-- Scripts
+		-- Scripts, Rofi
 		-------------------------------------------------------------------------------------
-		-- mudar para um terminal dropdown
-		--{
-		--	{ env.mod }, "c", function() awful.spawn("sh "..env.home.."/.scripts/rofi-run.sh") end,
-    --   {}
-		--	{ description = "rofi run", group = "Launchers" }
-		--},
-		-- {
-		-- 	{env.mod}, "y", function() awful.spawn("sh "..env.home.."/.scripts/clipboard-open.sh") end,
-		-- 	{ description = "abre o link do clipboard", group = "Launchers" }
-		-- },
-
-		-------------------------------------------------------------------------------------
-    -- Rofi
 		{
 			{ env.mod }, "d", function() awful.spawn("sh " .. env.home .. "/.scripts/rofi/appsmenu.sh") end,
 			{ description = "Application launcher", group = "Rofi" }
 		},
-		{
-			{ env.mod }, "p", function() awful.spawn("sh " .. env.home .. "/.scripts/rofi/mpdmenu.sh") end,
-			{ description = "Mpd control", group = "Rofi" }
-		},
-		-- {
-		-- 	{ env.mod }, "0", function() awful.spawn("sh " .. env.home .. "/.scripts/rofi/powermenu.sh") end,
-		-- 	{ description = "Exit options", group = "Rofi" }
-		-- },
 		{
 			{ env.mod }, "0", function() redflat.service.logout:show() end,
 			{ description = "Log out screen", group = "Widgets" }
@@ -599,9 +642,11 @@ function hotkeys:init(args)
 			{ description = "Locate files", group = "Rofi" }
 		},
 		{
-			{ env.mod }, "b", function() awful.spawn("sh " .. env.home .. "/.scripts/rofi/bookmark.sh") end,
+			{ env.mod, "Shift" }, "b", function() awful.spawn("sh " .. env.home .. "/.scripts/rofi/bookmark.sh") end,
 			{ description = "Bookmarks", group = "Rofi" }
 		},
+		-------------------------------------------------------------------------------------
+		-- Window control
 		-------------------------------------------------------------------------------------
 		{
 			{ env.mod }, "m", function () redflat.service.navigator:run() end,
@@ -615,6 +660,13 @@ function hotkeys:init(args)
 			{ env.mod, "Control" }, "f", function() redflat.float.control:show() end,
 			{ description = "[Hold] Floating window control mode", group = "Window control" }
 		},
+		{
+			{ env.mod}, "t", function() redtitle.global_switch() end,
+			{ description = "Switch titlebar style", group = "Window control" }
+		},
+		-------------------------------------------------------------------------------------
+		-- Client Focus and Navigation, Layouts
+		-------------------------------------------------------------------------------------
     {
 			{ env.mod, "Control"}, "h",
 			function()
@@ -668,8 +720,7 @@ function hotkeys:init(args)
 			{ env.mod }, "j", focus_switch_byd("down"),
 			{ description = "Go to lower client", group = "Client focus" }
 		},
-
-    -- troca rapida de client usando alt tab
+    -- fast app switch with alt tab (with visualizer)
 		{
 			{ "Mod1" }, "Tab", focus_to_previous,
 			{ description = "Go to previous client", group = "Client focus" }
@@ -678,14 +729,10 @@ function hotkeys:init(args)
 			{ "Mod1", "Shift" }, "Tab", focus_to_next,
 			{ description = "Go to next client", group = "Client focus" }
 		},
-    -- troca rapida de tag usando alt esc (ver uma função melhor)
+    -- fast screen switch with alt esc (basic)
 		{
 			{ "Mod1" }, "Escape", awful.tag.history.restore,
 			{ description = "Swith to previos tag by history", group = "Tag navigation" }
-		},
-		{
-			{ env.mod}, "t", function() redtitle.global_switch() end,
-			{ description = "Switch titlebar style", group = "Titlebar" }
 		},
 		{
 			{ env.mod }, "Escape", awful.tag.history.restore,
@@ -711,6 +758,9 @@ function hotkeys:init(args)
 			{ env.mod, "Shift" }, "Down", function() awful.layout.inc(-1) end,
 			{ description = "Select previous layout", group = "Layouts" }
 		},
+		-------------------------------------------------------------------------------------
+		-- Multimedia keys
+		-------------------------------------------------------------------------------------
 		{
 			{}, "XF86AudioRaiseVolume", volume_raise,
 			{ description = "Increase volume", group = "Volume control" }
@@ -753,10 +803,11 @@ function hotkeys:init(args)
 		},
 		{
 			{}, "Print", function() awful.spawn(env.screenshot_o) end,
-			{ description = "Screen Capture Window", group = "Launchers" }
+			{ description = "Screenshot", group = "Launchers" }
 		},
 	}
 
+	--------------------------------------------------------------------------------
 	-- Client keys
 	--------------------------------------------------------------------------------
 	self.raw.client = {
@@ -788,16 +839,16 @@ function hotkeys:init(args)
 			{ env.mod }, "Up", function(c) c.maximized = not c.maximized; c:raise() end,
 			{ description = "Maximize", group = "Client keys" }
 		},
-        {
-            { env.mod, "Shift" }, "m", function (c) c:swap(awful.client.getmaster()) end,
-            {description = "move to master", group = "Client keys"}
-        },
-
+    {
+        { env.mod, "Shift" }, "m", function (c) c:swap(awful.client.getmaster()) end,
+        {description = "move to master", group = "Client keys"}
+    },
 	}
 
 	self.keys.root = redflat.util.key.build(self.raw.root)
 	self.keys.client = redflat.util.key.build(self.raw.client)
 
+	--------------------------------------------------------------------------------
 	-- Numkeys
 	--------------------------------------------------------------------------------
 
