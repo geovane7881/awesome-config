@@ -84,6 +84,15 @@ function rules:init(args)
       end
     },
     {
+      rule = { class = "firefox" },
+      properties = {
+        switch_to_tags = true,
+      }, callback = function (c)
+        local tag = tags[2]
+        c:move_to_tag(tag)
+      end
+    },
+    {
       rule = { class = "Code" },
       properties = {
         switch_to_tags = true,
