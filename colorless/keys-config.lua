@@ -813,7 +813,7 @@ function hotkeys:init(args)
 	--------------------------------------------------------------------------------
 	self.raw.client = {
 		{
-			{ }, "F11", function(c) c.fullscreen = not c.fullscreen; c:raise() end,
+			{ env.mod }, "F11", function(c) c.fullscreen = not c.fullscreen; c:raise() end,
 			{ description = "Toggle fullscreen", group = "Client keys" }
 		},
 		{
