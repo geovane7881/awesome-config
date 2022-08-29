@@ -111,6 +111,7 @@ local volume = {}
 volume.widget = redflat.widget.pulse(nil, { widget = redflat.gauge.audio.blue.new })
 
 -- activate player widget
+-- comentar no trabalho *** audio bugado **
 redflat.float.player:init({ name = env.player })
 
 volume.buttons = awful.util.table.join(

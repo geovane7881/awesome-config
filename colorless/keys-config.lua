@@ -895,7 +895,13 @@ function hotkeys:init(args)
 	self.mouse.client = awful.util.table.join(
 		awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
 		awful.button({ env.mod }, 1, awful.mouse.client.move),
-		awful.button({ env.mod }, 3, awful.mouse.client.resize)
+		awful.button({ env.mod }, 3, awful.mouse.client.resize),
+    awful.button({ env.mod, "Shift" }, 1,
+				move_to_screen("left")
+      ),
+    awful.button({ env.mod, "Shift" }, 3,
+				move_to_screen("right")
+      )
 	)
 
 	-- Set root hotkeys
