@@ -128,17 +128,20 @@ function rules:init(args)
         c:move_to_tag(tag)
       end
     },
-    {
+    -- {
+    --   rule = { class = "Org.gnome.Nautilus" },
+    --   properties = {
+    --     switch_to_tags = true
+    --   }, callback = function (c)
+    --     local tag = tags[1]
+    --     c:move_to_tag(tag)
+    --   end
+    -- },
+		{
       rule = { class = "Org.gnome.Nautilus" },
-      properties = {
-        switch_to_tags = true
-      }, callback = function (c)
-        local tag = tags[1]
-        c:move_to_tag(tag)
-      end
-    },
-	}
-
+			properties = { floating = true }
+		}
+  }
 
 	-- Set rules
 	--------------------------------------------------------------------------------

@@ -50,13 +50,13 @@ function autostart.run()
   })
 
   -- nvim
-  awful.spawn(env.editor .. ' ~/dev/front', {
-      -- floating  = false,
-      -- tag       = mouse.screen.selected_tag
-  })
+  -- awful.spawn(env.editor .. ' ~/dev/front', {
+  --     -- floating  = false,
+  --     -- tag       = mouse.screen.selected_tag
+  -- })
 
   -- discord
-  awful.spawn('discord')--, {
+  -- awful.spawn('discord')--, {
     -- floating = false
     -- screen = awful.screen[0],
     -- switch_to_tags = true,

@@ -20,9 +20,8 @@ function layouts:init()
 	-- layouts list
     -- mudando a ordem
 	local layset = {
-		awful.layout.suit.spiral,
-		awful.layout.suit.max,
 		awful.layout.suit.tile,
+		awful.layout.suit.max,
 		awful.layout.suit.tile.left,
 		awful.layout.suit.tile.bottom,
 		awful.layout.suit.tile.top,
@@ -35,6 +34,7 @@ function layouts:init()
 		awful.layout.suit.max.fullscreen,
 		redflat.layout.grid,
 		redflat.layout.map,
+		awful.layout.suit.spiral,
 		awful.layout.suit.floating,
 	}
 

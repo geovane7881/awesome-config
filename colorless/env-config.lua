@@ -54,6 +54,8 @@ function env:init(args)
   --terminal apps
   self.terminal_cmd = "bash -c '"..self.terminal.."'"
 	self.editor = "bash -c '"..self.terminal.." -e nvim'"
+	-- self.editor = "goneovim"
+	-- self.editor = "gnvim"
   --self.terminal_fm = "bash -c '"..self.terminal.." -e ranger'"
   self.terminal_fm = "bash -c '"..self.terminal.." -e lf'"
   self.email = "bash -c '"..self.terminal.." -e neomutt'"

@@ -919,8 +919,18 @@ function theme:init()
 
 	-- task text aliases
 	self.widget.tasklist.appnames = {}
-	self.widget.tasklist.appnames["Firefox"             ] = "FIFOX"
-	self.widget.tasklist.appnames["Gnome-terminal"      ] = "GTERM"
+	self.widget.tasklist.appnames["nvim"] = "VIM"
+	self.widget.tasklist.appnames["goneovim"] = "VIM"
+	self.widget.tasklist.appnames["gnvim"] = "VIM"
+	self.widget.tasklist.appnames["Code"] = "VSCODE"
+	self.widget.tasklist.appnames["jetbrains-idea-ce"] = "INTELLIJ"
+	self.widget.tasklist.appnames["DBeaver"] = "DB"
+	self.widget.tasklist.appnames["firefox"] = "FIFOX"
+	self.widget.tasklist.appnames["Google-chrome"] = "CHROME"
+	self.widget.tasklist.appnames["Gnome-terminal"] = "TERM"
+	self.widget.tasklist.appnames["kitty"] = "TERM"
+	self.widget.tasklist.appnames["Org.gnome.Nautilus"] = "FILES"
+	self.widget.tasklist.appnames["notion-desktop"] = "NOTION"
 
 
 	-- Floating widgets

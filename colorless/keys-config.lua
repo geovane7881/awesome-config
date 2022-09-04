@@ -476,11 +476,11 @@ function hotkeys:init(args)
 		{
 			{ env.mod, "Shift" }, "r", function()
           awful.spawn(env.fm)
-          local screen = awful.screen.focused()
-          local tag = screen.tags[3]
-          if tag then
-            tag:view_only()
-          end
+          -- local screen = awful.screen.focused()
+          -- local tag = screen.tags[3]
+          -- if tag then
+          --   tag:view_only()
+          -- end
         end,
 			{ description = "GUI file browser", group = "Launchers" }
 		},
