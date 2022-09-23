@@ -527,7 +527,8 @@ function hotkeys:init(args)
           tag:view_only()
           for _, c in ipairs(client.get()) do
             -- if c.class == "Google-chrome" then
-            if c.class == "firefox" then
+            if c.class == "Google-chrome-unstable" then
+            -- if c.class == "firefox" then
               client.focus = c
               c:raise()
             end

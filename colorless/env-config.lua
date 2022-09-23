@@ -37,7 +37,8 @@ function env:init(args)
 	self.dbeaver = "dbeaver"
 	self.intellij = "intellij"
 	self.notion = "notion-desktop"
-  self.browser = os.getenv("BROWSER") or "firefox"
+  -- self.browser = os.getenv("BROWSER") or "firefox"
+  self.browser = "google-chrome-unstable"
   self.discord = "discord"
   self.player = args.player or "mpd"
   -- vivaldi, no localhost, meu segundo navegador

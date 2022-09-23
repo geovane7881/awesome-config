@@ -112,17 +112,17 @@ volume.widget = redflat.widget.pulse(nil, { widget = redflat.gauge.audio.blue.ne
 
 -- activate player widget
 -- comentar no trabalho *** audio bugado **
-redflat.float.player:init({ name = env.player })
+-- redflat.float.player:init({ name = env.player })
 
-volume.buttons = awful.util.table.join(
-	awful.button({}, 4, function() volume.widget:change_volume()                end),
-	awful.button({}, 5, function() volume.widget:change_volume({ down = true }) end),
-	awful.button({}, 2, function() volume.widget:mute()                         end),
-	awful.button({}, 3, function() redflat.float.player:show()                  end),
-	awful.button({}, 1, function() redflat.float.player:action("PlayPause")     end),
-	awful.button({}, 8, function() redflat.float.player:action("Previous")      end),
-	awful.button({}, 9, function() redflat.float.player:action("Next")          end)
-)
+-- volume.buttons = awful.util.table.join(
+-- 	awful.button({}, 4, function() volume.widget:change_volume()                end),
+-- 	awful.button({}, 5, function() volume.widget:change_volume({ down = true }) end),
+-- 	awful.button({}, 2, function() volume.widget:mute()                         end),
+-- 	awful.button({}, 3, function() redflat.float.player:show()                  end),
+-- 	awful.button({}, 1, function() redflat.float.player:action("PlayPause")     end),
+-- 	awful.button({}, 8, function() redflat.float.player:action("Previous")      end),
+-- 	awful.button({}, 9, function() redflat.float.player:action("Next")          end)
+-- )
 
 ---- Mail widget
 ----------------------------------------------------------------------------------
