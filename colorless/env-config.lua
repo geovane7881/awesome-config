@@ -28,7 +28,7 @@ function env:init(args)
 	self.updates = args.updates or "bash -c 'pacman -Qu | grep -v ignored | wc -l'"
 	self.themedir = awful.util.get_configuration_dir() .. "themes/" .. theme
 	self.home = os.getenv("HOME")
-  self.terminal = os.getenv("TERMCMD") or 'kitty'
+  self.terminal = os.getenv("TERMCMD") or 'kitty -e tmux new-session '
 	self.mod = args.mod or "Mod4"
 	self.fm = args.fm or "nautilus"
 	self.document_viewer = "evince"
@@ -37,7 +37,7 @@ function env:init(args)
 	self.dbeaver = "dbeaver"
 	self.intellij = "intellij"
 	self.notion = "notion-desktop"
-  self.browser = os.getenv("BROWSER") or "firefox"
+  self.browser = os.getenv("BROWSER") or "google-chrome"
   self.discord = "discord"
   self.player = args.player or "mpd"
   -- vivaldi, no localhost, meu segundo navegador
@@ -53,16 +53,16 @@ function env:init(args)
 
   --terminal apps
   self.terminal_cmd = "bash -c '"..self.terminal.."'"
-	self.editor = "bash -c '"..self.terminal.." -e nvim'"
+	self.editor = "bash -c '"..self.terminal.." nvim'"
 	-- self.editor = "goneovim"
 	-- self.editor = "gnvim"
   --self.terminal_fm = "bash -c '"..self.terminal.." -e ranger'"
-  self.terminal_fm = "bash -c '"..self.terminal.." -e lf'"
-  self.email = "bash -c '"..self.terminal.." -e neomutt'"
-  self.newsboat = "bash -c '"..self.terminal.." -e newsboat'";
+  self.terminal_fm = "bash -c '"..self.terminal.." lf'"
+  self.email = "bash -c '"..self.terminal.." neomutt'"
+  self.newsboat = "bash -c '"..self.terminal.." newsboat'";
 
   -- music
-	self.player_cmd = "bash -c '"..self.terminal.." -e ncmpcpp'"
+	self.player_cmd = "bash -c '"..self.terminal.." ncmpcpp'"
   self.player_play_pause = "playerctl play-pause"
   self.player_previous = "playerctl previous"
   self.player_next = "playerctl next"

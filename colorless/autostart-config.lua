@@ -37,6 +37,8 @@ function autostart.run()
 	awful.spawn.with_shell("redshift -O 3700k")
   -- teclado
 	awful.spawn.with_shell("~/.scripts/teclado.sh")
+  -- telas
+	awful.spawn.with_shell("~/.screenlayout/telas.sh")
 
 
   -- programas dia a dia

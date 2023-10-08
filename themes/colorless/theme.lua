@@ -922,15 +922,15 @@ function theme:init()
 	self.widget.tasklist.appnames["nvim"] = "VIM"
 	self.widget.tasklist.appnames["goneovim"] = "VIM"
 	self.widget.tasklist.appnames["gnvim"] = "VIM"
-	self.widget.tasklist.appnames["Code"] = "VSCODE"
-	self.widget.tasklist.appnames["jetbrains-idea-ce"] = "INTELLIJ"
-	self.widget.tasklist.appnames["DBeaver"] = "DB"
-	self.widget.tasklist.appnames["firefox"] = "FIFOX"
-	self.widget.tasklist.appnames["Google-chrome"] = "CHROME"
+	self.widget.tasklist.appnames["Code"] = "CODE"
+	self.widget.tasklist.appnames["jetbrains-idea-ce"] = "INTJ"
+	self.widget.tasklist.appnames["DBeaver"] = "DBEV"
+	self.widget.tasklist.appnames["firefox"] = "FIFX"
+	self.widget.tasklist.appnames["Google-chrome"] = "CHRM"
 	self.widget.tasklist.appnames["Gnome-terminal"] = "TERM"
 	self.widget.tasklist.appnames["kitty"] = "TERM"
-	self.widget.tasklist.appnames["Org.gnome.Nautilus"] = "FILES"
-	self.widget.tasklist.appnames["notion-desktop"] = "NOTION"
+	self.widget.tasklist.appnames["Org.gnome.Nautilus"] = "FILE"
+	self.widget.tasklist.appnames["notion-desktop"] = "NTN"
 
 
 	-- Floating widgets
